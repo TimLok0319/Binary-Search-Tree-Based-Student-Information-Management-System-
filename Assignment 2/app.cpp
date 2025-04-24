@@ -1,5 +1,4 @@
 #include	<iostream>
-//#include	<string>
 #include	<fstream>
 #include	<cstdlib>
 #include	<cstdio>
@@ -23,14 +22,38 @@ int main() {
 		option = menu();
 		if (option == 1)
 		{
-			readFile("student.txt", bst);
+			if (!readFile("student.txt", bst))
+			{
+				cout << "\n\n<Student.txt is empty!>\n";
+			}
+			else
+				cout << "\n<Student List BST had been created successfully>\n";
 
+
+			system("pause");
 		}
 		else if (option == 2)
 		{
 		}
 		else if (option == 3)
 		{
+			int order,source;
+			if(bst->count == 0)
+				cout << "\nThe Student List BST is Empty!\n";
+
+			else
+			{
+				cout << "Please select the source to display (1-Screen | 2-File): ";
+				cin >> source;
+				cout << "Please select the order to display (1-Ascending | 2-Descending): ";
+				cin >> order;
+
+				if (!bst->display(order,source))
+					cout << "\n\nThe Student List BST is Empty!\n";
+
+				system("pause");
+			}
+
 		}
 		else if (option == 4)
 		{
@@ -113,8 +136,10 @@ bool readFile(const char* filename, BST* t1)
 		//insert student into BST
 		t1->insert(tempStud);
 		studCount++;
-		cout << "\n\n" << studCount << " was read and inserted into BST.";
+		
 	}
+
+	cout << "\n\n<" << studCount << " student(s) was read and inserted into BST>";
 	readfile.close();
 }
 

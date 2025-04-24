@@ -258,6 +258,78 @@ void BST::case3(BTNode *cur) {
 	free(is);
 }
 
+// Question (c)
+void BST::descPrint(BTNode* cur) {
+
+	if (cur == NULL) return;
+
+	descPrint(cur->right);
+	cur->item.print(cout);
+	descPrint(cur->left);
+}
+void BST::descFile(BTNode* cur, ofstream& outFile) {
+	if (cur == NULL) return;
+
+	descFile(cur->right, outFile);
+	outFile << "\nName: " << cur->item.name;
+	outFile << "\nID: " << cur->item.id;
+	outFile << "\nAddress: " << cur->item.address;
+	outFile << "\nDate of Birth: " << cur->item.DOB;
+	outFile << "\nPhone No: " << cur->item.phone_no;
+	outFile << "\nCourse: " << cur->item.course;
+	outFile << "\nCGPA: " << cur->item.cgpa;
+	outFile << "\n";
+	descFile(cur->left, outFile);
+}
+void BST::asceFile(BTNode* cur, ofstream& outFile) {
+
+	if (cur == NULL) return;
+
+	asceFile(cur->left, outFile);
+	outFile << "\nName: " << cur->item.name;
+	outFile << "\nID: " << cur->item.id;
+	outFile << "\nAddress: " << cur->item.address;
+	outFile << "\nDate of Birth: " << cur->item.DOB;
+	outFile << "\nPhone No: " << cur->item.phone_no;
+	outFile << "\nCourse: " << cur->item.course;
+	outFile << "\nCGPA: " << cur->item.cgpa;
+	outFile << "\n";
+	asceFile(cur->right, outFile);
+}
+
+bool BST::display(int order, int source)
+{
+	ofstream outFile;
+	outFile.open("student-info.txt");
+
+	if (count == 0)
+		return false;
+
+	if (source == 1)
+	{
+		if (order == 1) inOrderPrint();
+		else if (order == 2) descPrint(root);
+
+	}
+	else if (source == 2)
+	{
+		if (order == 1) 
+		{
+			asceFile(root, outFile);
+			cout << "\n<The BST is printed out to student-info.txt in ascending order>\n\n";
+		}
+		else if (order == 2) 
+		{
+			descFile(root, outFile);
+			cout << "\n<The BST is printed out to student-info.txt in ascending order>\n\n";
+		}
+	}
+	outFile.close();
+	return true;
+
+
+}
+
 
 
 
