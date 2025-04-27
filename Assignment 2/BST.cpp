@@ -330,6 +330,63 @@ bool BST::display(int order, int source)
 
 }
 
+////Question (b)
+bool BST::deepestNode() {
+	BTNode* cur = nullptr ;
+	BTNode* tmp;
+	Queue q;
+	int level=0;
+	int treeHeight = findHeight(root);
+
+	if (empty()) return false; 	// special case
+	q.enqueue(root);	// Step 1: enqueue the first node
+	q.enqueue(nullptr);
+	while (!q.empty()) { 	// Step 2: do 2 operations inside
+		q.dequeue(cur);
+
+		if (cur == nullptr)
+		{
+			level++;
+			if(!q.empty())
+				q.enqueue(nullptr);
+		}
+
+
+		if (cur != NULL) {
+
+			if (cur->left != NULL)
+			{
+				q.enqueue(cur->left);
+			}
+
+			if (cur->right != NULL)
+			{
+				q.enqueue(cur->right);
+			}
+
+			if (level == treeHeight)
+			{
+				cout << cur->item.id << "\t";
+			}
+		}
+	}
+	return true;
+}
+
+int BST :: findHeight(BTNode *cur)
+{
+	if (cur == nullptr) {
+		return -1;  // Height of an empty tree
+	}
+
+	int leftHeight = findHeight(cur->left);
+	int rightHeight = findHeight(cur->right);
+
+	return 1 + max(leftHeight, rightHeight);
+}
+
+
+
 
 
 

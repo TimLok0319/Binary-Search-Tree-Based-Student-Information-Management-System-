@@ -34,6 +34,14 @@ int main() {
 		}
 		else if (option == 2)
 		{
+			cout << "\n<The Deepest Node(s) in BST>\n";
+
+			if (!bst->deepestNode())
+				cout << "The BST is Empty!";
+
+			cout << "\n\n";
+			system("pause");
+
 		}
 		else if (option == 3)
 		{
