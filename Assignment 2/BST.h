@@ -63,7 +63,7 @@ struct BST {
 
 		//Question (f)
 		bool printPath();
-		void preOrderTraverse(BTNode*);
+		void printPath2(BTNode*,int*, int);
 		
 
 		

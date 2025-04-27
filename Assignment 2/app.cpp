@@ -77,7 +77,12 @@ int main() {
 		}
 		else if (option == 6)
 		{
-			bst->printPath();
+			cout << "\n<Below are all the external paths for the tree>\n";
+
+			if (!bst->printPath())
+				cout << "\nThe Student List BST is Empty!\n";
+
+			system("Pause");
 		}
 
 	} while (option != 7);

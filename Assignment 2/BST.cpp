@@ -435,46 +435,34 @@ bool BST::printLevelNodes()
 //Question (f)
 bool BST::printPath()
 {
+	Queue q;
 	BTNode* cur = root;
+	int path[1000];
+	int pathLen = 0;
 	if (empty()) return false;
 
-	preOrderTraverse(root);
-
-
-
+	printPath2(root,path,pathLen);
 	
 }
 
+void BST::printPath2(BTNode* cur, int path[],int pathLen) {
 
-
-void BST::preOrderTraverse(BTNode* cur) {
-
-
-	BTNode* tmp;
 	if (cur == NULL) return;
-	Queue q;
 
-	q.enqueue(cur);
+	path[pathLen] = cur->item.id;  //saved visited node into array
+	pathLen++; //path length increment for output usage later
 
-	if (cur->left == NULL && cur->right == NULL)
+	printPath2(cur->left, path, pathLen);
+	printPath2(cur->right, path, pathLen);
+
+
+	// when leave node is detected, display the saved id in the array up to path length
+	if (cur->left == NULL && cur->right == NULL) 
 	{
-		while (!q.empty())
-		{
-			q.dequeue(tmp);
-			cout << tmp->item.id << " ";
-			
-		}
+		for (int i = 0; i < pathLen; i++)
+			cout << path[i] << "  ";
+		cout << endl;
 	}
-	
-
-	/*if (cur->left == NULL && cur->right == NULL)
-	{
-		cout << cur->item.id << "  ";
-	}*/
-
-	preOrderTraverse(cur->left);
-	preOrderTraverse(cur->right);
-
 }
 
 
