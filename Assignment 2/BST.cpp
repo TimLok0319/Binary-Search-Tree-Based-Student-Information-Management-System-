@@ -330,7 +330,7 @@ bool BST::display(int order, int source)
 
 }
 
-////Question (b)
+//Question (b)
 bool BST::deepestNode() {
 	BTNode* cur = nullptr ;
 	BTNode* tmp;
@@ -383,6 +383,53 @@ int BST :: findHeight(BTNode *cur)
 	int rightHeight = findHeight(cur->right);
 
 	return 1 + max(leftHeight, rightHeight);
+}
+
+//Question (e)
+bool BST::printLevelNodes()
+{
+	BTNode* cur = nullptr;
+	BTNode* tmp;
+	Queue q;
+	int level = 1;
+	int treeHeight = findHeight(root);
+	bool label = false;
+
+	if (empty()) return false; 	// special case
+	q.enqueue(root);
+	q.enqueue(nullptr); //Use nullptr as a label to track current level
+
+	while (!q.empty())
+	{ 	
+		q.dequeue(cur);
+
+		if(!label) //use bool label to check whether the current's level had been printed
+		{
+			cout << "Level " << level << " node(s): \n";
+			label = true;
+		}
+		if (cur != nullptr)
+			cout << cur->item.id << "  "; 
+
+		if (cur == nullptr) // if cur == nullptr means all node in level n had been dequeued
+		{
+			level++;
+			label = false;
+			if (!q.empty())
+				q.enqueue(nullptr);
+		}
+
+
+		if (cur != NULL) 
+		{
+			if (cur->left != NULL)
+				q.enqueue(cur->left);
+
+			if (cur->right != NULL)
+				q.enqueue(cur->right);
+		}
+	}
+	return true;
 }
 
 

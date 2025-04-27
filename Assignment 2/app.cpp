@@ -68,6 +68,10 @@ int main() {
 		}
 		else if (option == 5)
 		{
+			cout << "\n<BST Nodes by Level>\n";
+
+			if(!bst->printLevelNodes())
+				cout << "\nThe Student List BST is Empty!\n";
 		}
 		else
 		{
