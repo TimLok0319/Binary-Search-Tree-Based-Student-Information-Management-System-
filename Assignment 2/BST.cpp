@@ -432,6 +432,54 @@ bool BST::printLevelNodes()
 	return true;
 }
 
+//Question (f)
+bool BST::printPath()
+{
+	BTNode* cur = root;
+	if (empty()) return false;
+
+	preOrderTraverse(root);
+
+
+
+	
+}
+
+
+
+void BST::preOrderTraverse(BTNode* cur) {
+
+
+	BTNode* tmp;
+	if (cur == NULL) return;
+	Queue q;
+
+	q.enqueue(cur);
+
+	if (cur->left == NULL && cur->right == NULL)
+	{
+		while (!q.empty())
+		{
+			q.dequeue(tmp);
+			cout << tmp->item.id << " ";
+			
+		}
+	}
+	
+
+	/*if (cur->left == NULL && cur->right == NULL)
+	{
+		cout << cur->item.id << "  ";
+	}*/
+
+	preOrderTraverse(cur->left);
+	preOrderTraverse(cur->right);
+
+}
+
+
+
+
 
 
 

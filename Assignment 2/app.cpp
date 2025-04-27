@@ -72,9 +72,12 @@ int main() {
 
 			if(!bst->printLevelNodes())
 				cout << "\nThe Student List BST is Empty!\n";
+
+			system("Pause");
 		}
-		else
+		else if (option == 6)
 		{
+			bst->printPath();
 		}
 
 	} while (option != 7);
