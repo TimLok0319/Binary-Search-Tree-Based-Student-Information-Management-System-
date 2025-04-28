@@ -29,7 +29,7 @@ int main() {
 			else
 				cout << "\n<Student List BST had been created successfully>\n";
 
-
+			cout << endl;
 			system("pause");
 		}
 		else if (option == 2)
@@ -59,20 +59,42 @@ int main() {
 				if (!bst->display(order,source))
 					cout << "\n\nThe Student List BST is Empty!\n";
 
+				cout << endl;
 				system("pause");
 			}
 
 		}
 		else if (option == 4)
 		{
+			BST* t2 = new BST();
+			int target;
+			type result;
+			cout << "\n\nPlease enter the Root (ID) of the subtree that you want to clone: ";
+			cin >> target;
+			cout << "\nTarget = " << target << "\n";
+
+			if (!bst->searchItem(bst->root, target, result))
+				cout << "\n\nStudent with ID " << target << " was not found in the Student List BST";
+
+			else
+				if(!t2->empty())
+					cout << "\n\nThe tree must be empty before cloning start.";
+
+				else
+					t2->CloneSubtree(*bst, result);
+
+			cout << endl;
+			system("pause");	
+			
 		}
 		else if (option == 5)
 		{
-			cout << "\n<BST Nodes by Level>\n";
+			cout << "\n<BST Nodes by Level>";
 
 			if(!bst->printLevelNodes())
 				cout << "\nThe Student List BST is Empty!\n";
 
+			cout << endl << endl;
 			system("Pause");
 		}
 		else if (option == 6)
@@ -82,6 +104,7 @@ int main() {
 			if (!bst->printPath())
 				cout << "\nThe Student List BST is Empty!\n";
 
+			cout << endl;
 			system("Pause");
 		}
 
@@ -94,10 +117,10 @@ int main() {
 int menu()
 {
 	int option;
-
+	system("cls");
 	cout << "\n<Student Record in BST>";
 	cout << "\n\nPlease Select from the following menu";
-	cout << "\n(1)	Read data to BST\n(2)	Print deepest nodes\n(3)	Display student\n(4)	Clone Subtree\n(5)	Print Level Nodes\n(6)	Print Path\n(7)	Exit";
+	cout << "\n(1)  Read data to BST\n(2)  Print deepest nodes\n(3)  Display student\n(4)  Clone Subtree\n(5)  Print Level Nodes\n(6)  Print Path\n(7)  Exit";
 	cout << "\n\nOption: ";
 	cin >> option;
 

@@ -57,17 +57,17 @@ struct BST {
 
 		//Question (d)
 		bool CloneSubtree(BST t1, type item);
+		BTNode* preOrderSearch(BTNode*, int);
+		void clone(BTNode* cur);
+		bool searchItem(BTNode*, int,type&);
 
 		//Question (e)
 		bool printLevelNodes();
 
 		//Question (f)
 		bool printPath();
-		void printPath2(BTNode*,int*, int);
+		void printPath2(BTNode*, int[], int);
 		
-
-		
-	
 };
 
 

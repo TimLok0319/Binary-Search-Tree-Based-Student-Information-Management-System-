@@ -155,7 +155,6 @@ bool BST::insert(type newItem) {
 	return true;
 }
 
-
 void BST::insert2(BTNode *cur, BTNode *newNode) {
 	//if (cur->item > newNode->item) {
 	if (cur->item.compare1(newNode->item)){
@@ -171,8 +170,6 @@ void BST::insert2(BTNode *cur, BTNode *newNode) {
 			insert2(cur->right, newNode);
 	}
 }
-
-
 
 bool BST::remove(type item) {
 	if (root == NULL) return false; 		// special case 1: tree is empty
@@ -204,7 +201,6 @@ bool BST::remove2(BTNode *pre, BTNode *cur, type item) {
 	return remove2(cur, cur->right, item);
 }
 
-
 void BST::case2(BTNode *pre, BTNode *cur) {
 
 	// special case: delete root node
@@ -234,7 +230,6 @@ void BST::case2(BTNode *pre, BTNode *cur) {
 	free(cur);					// remove item
 }
 
-
 void BST::case3(BTNode *cur) {
 	BTNode		*is, *isFather;
 
@@ -256,6 +251,51 @@ void BST::case3(BTNode *cur) {
 
 	// remove IS Node
 	free(is);
+}
+
+
+
+//Question (b)
+bool BST::deepestNode() {
+	BTNode* cur = nullptr ;
+	BTNode* tmp;
+	Queue q;
+	int level=0;
+	int treeHeight = findHeight(root);
+
+	if (empty()) return false; 	// special case
+	q.enqueue(root);	// Step 1: enqueue the first node
+	q.enqueue(nullptr);
+	while (!q.empty()) { 	// Step 2: do 2 operations inside
+		q.dequeue(cur);
+
+		if (cur == nullptr)
+		{
+			level++;
+			if(!q.empty())
+				q.enqueue(nullptr);
+		}
+
+
+		if (cur != NULL) {
+
+			if (cur->left != NULL)
+			{
+				q.enqueue(cur->left);
+			}
+
+			if (cur->right != NULL)
+			{
+				q.enqueue(cur->right);
+			}
+
+			if (level == treeHeight)
+			{
+				cout << cur->item.id << "\t";
+			}
+		}
+	}
+	return true;
 }
 
 // Question (c)
@@ -313,12 +353,12 @@ bool BST::display(int order, int source)
 	}
 	else if (source == 2)
 	{
-		if (order == 1) 
+		if (order == 1)
 		{
 			asceFile(root, outFile);
 			cout << "\n<The BST is printed out to student-info.txt in ascending order>\n\n";
 		}
-		else if (order == 2) 
+		else if (order == 2)
 		{
 			descFile(root, outFile);
 			cout << "\n<The BST is printed out to student-info.txt in ascending order>\n\n";
@@ -328,49 +368,6 @@ bool BST::display(int order, int source)
 	return true;
 
 
-}
-
-//Question (b)
-bool BST::deepestNode() {
-	BTNode* cur = nullptr ;
-	BTNode* tmp;
-	Queue q;
-	int level=0;
-	int treeHeight = findHeight(root);
-
-	if (empty()) return false; 	// special case
-	q.enqueue(root);	// Step 1: enqueue the first node
-	q.enqueue(nullptr);
-	while (!q.empty()) { 	// Step 2: do 2 operations inside
-		q.dequeue(cur);
-
-		if (cur == nullptr)
-		{
-			level++;
-			if(!q.empty())
-				q.enqueue(nullptr);
-		}
-
-
-		if (cur != NULL) {
-
-			if (cur->left != NULL)
-			{
-				q.enqueue(cur->left);
-			}
-
-			if (cur->right != NULL)
-			{
-				q.enqueue(cur->right);
-			}
-
-			if (level == treeHeight)
-			{
-				cout << cur->item.id << "\t";
-			}
-		}
-	}
-	return true;
 }
 
 int BST :: findHeight(BTNode *cur)
@@ -385,6 +382,68 @@ int BST :: findHeight(BTNode *cur)
 	return 1 + max(leftHeight, rightHeight);
 }
 
+//Question (d)
+bool BST::CloneSubtree(BST t1, type item)
+{
+	if (t1.empty()) return false;
+	
+	BTNode* targetNode = preOrderSearch(t1.root, item.id);
+	if (targetNode != NULL)
+		clone(targetNode);
+
+	else
+	{
+		cout << "\n<Cannot clone subtree>";
+		return false;
+	}
+
+
+	cout << "\n\n<Below are the student information in the new tree.>";
+	preOrderPrint();
+	return true;
+}
+
+void BST :: clone(BTNode* cur)
+{
+	if (cur == NULL) return;
+
+	insert(cur->item);
+
+	clone(cur->left);
+	clone(cur->right);
+}
+
+BTNode* BST::preOrderSearch(BTNode* cur, int id)
+{
+	
+	if (cur == NULL) return NULL;
+
+
+	if (cur->item.id == id)
+		return cur;
+
+	BTNode* result = preOrderSearch(cur->left, id);
+	if (result != NULL)
+		return result;
+
+	else
+		return preOrderSearch(cur->right, id);
+
+}
+
+bool BST::searchItem(BTNode* cur, int id, type& result)
+{
+	if (cur == NULL) return false;
+
+	if (cur->item.id == id)
+	{
+		result = cur->item;
+		return true;
+	}
+
+	if (searchItem(cur->left, id, result)) return true;
+	return searchItem(cur->right, id, result);
+}
 //Question (e)
 bool BST::printLevelNodes()
 {
@@ -405,7 +464,7 @@ bool BST::printLevelNodes()
 
 		if(!label) //use bool label to check whether the current's level had been printed
 		{
-			cout << "Level " << level << " node(s): \n";
+			cout << "\nLevel " << level << " node(s): ";
 			label = true;
 		}
 		if (cur != nullptr)
@@ -444,7 +503,6 @@ bool BST::printPath()
 	printPath2(root,path,pathLen);
 	
 }
-
 void BST::printPath2(BTNode* cur, int path[],int pathLen) {
 
 	if (cur == NULL) return;
