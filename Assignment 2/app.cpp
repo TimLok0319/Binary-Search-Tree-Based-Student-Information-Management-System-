@@ -14,7 +14,6 @@ int menu();
 int main() {
 
 	int option;
-
 	BST *bst = new BST();
 
 	do
@@ -22,9 +21,11 @@ int main() {
 		option = menu();
 		if (option == 1)
 		{
-			if (!readFile("student.txt", bst))
+			char filename[] = "student.txt";
+			
+			if (!readFile(filename, bst))
 			{
-				cout << "\n\n<Student.txt is empty!>\n";
+				cout << "\n<Student.txt is empty or does not Exist>\n";
 			}
 			else
 				cout << "\n<Student List BST had been created successfully>\n";
@@ -46,7 +47,7 @@ int main() {
 		else if (option == 3)
 		{
 			int order,source;
-			if(bst->count == 0)
+			if(bst->empty())
 				cout << "\nThe Student List BST is Empty!\n";
 
 			else
@@ -59,32 +60,38 @@ int main() {
 				if (!bst->display(order,source))
 					cout << "\n\nThe Student List BST is Empty!\n";
 
-				cout << endl;
-				system("pause");
 			}
+			cout << endl;
+			system("pause");
 
 		}
 		else if (option == 4)
 		{
-			BST* t2 = new BST();
-			int target;
-			type result;
-			cout << "\n\nPlease enter the Root (ID) of the subtree that you want to clone: ";
-			cin >> target;
-			cout << "\nTarget = " << target << "\n";
-
-			if (!bst->searchItem(bst->root, target, result))
-				cout << "\n\nStudent with ID " << target << " was not found in the Student List BST";
+			if (bst->empty())
+				cout << "\nThe BST is Empty!\n";
 
 			else
-				if(!t2->empty())
-					cout << "\n\nThe tree must be empty before cloning start.";
+			{
+				BST* t2 = new BST();
+				int target;
+				type result;
+				cout << "\n\nPlease enter the Root (ID) of the subtree that you want to clone: ";
+				cin >> target;
+
+				if (!bst->searchItem(bst->root, target, result))
+					cout << "\n\nStudent with ID " << target << " was not found in the Student List BST";
 
 				else
-					t2->CloneSubtree(*bst, result);
+					if (!t2->empty())
+						cout << "\n\nThe tree must be empty before cloning start.";
 
+					else
+						t2->CloneSubtree(*bst, result);
+
+				
+			}
 			cout << endl;
-			system("pause");	
+			system("pause");
 			
 		}
 		else if (option == 5)
@@ -102,7 +109,7 @@ int main() {
 			cout << "\n<Below are all the external paths for the tree>\n";
 
 			if (!bst->printPath())
-				cout << "\nThe Student List BST is Empty!\n";
+				cout << "The BST is Empty!\n";
 
 			cout << endl;
 			system("Pause");
@@ -129,7 +136,7 @@ int menu()
 
 bool readFile(const char* filename, BST* t1)
 {
-	int studCount=0;
+	int studCount = 0;
 	char tmp;
 	char temp[100];
 
@@ -140,50 +147,45 @@ bool readFile(const char* filename, BST* t1)
 	if (!readfile)
 		return false;
 
-	//Ignore character of each line untill "=" adn read the text after it
+	if (!readfile.get(tmp))
+		return false;
+
+	//Ignore character of each line untill "=" and read the text after it
 	while (!readfile.eof())
 	{
-		readfile.ignore(100, '=');  
+		readfile.ignore(100, '=');
 		readfile >> tempStud.id;
 
-		readfile.ignore(100, '=');  
+		readfile.ignore(100, '=');
 		readfile.get(tmp);
 		readfile.getline(temp, 100);
 		strcpy(tempStud.name, temp);
 
-		readfile.ignore(100, '='); 
+		readfile.ignore(100, '=');
 		readfile.get(tmp);
 		readfile.getline(temp, 100);
 		strcpy(tempStud.address, temp);
 
-		readfile.ignore(100, '=');  
+		readfile.ignore(100, '=');
 		readfile >> tempStud.DOB;
 
-		readfile.ignore(100, '='); 
+		readfile.ignore(100, '=');
 		readfile >> tempStud.phone_no;
 
-		readfile.ignore(100, '='); 
+		readfile.ignore(100, '=');
 		readfile >> tempStud.course;
 
-		readfile.ignore(100, '='); 
+		readfile.ignore(100, '=');
 		readfile >> tempStud.cgpa;
-
-		cout << "\n\nStudent Name: " << tempStud.name;
-		cout << "\nID: " << tempStud.id;
-		cout << "\nAddress: " << tempStud.address;
-		cout << "\nDOB: " << tempStud.DOB;
-		cout << "\nCourse: " << tempStud.course;
-		cout << "\nPhoneNo: " << tempStud.phone_no;
-		cout << "\nCGPA: " << tempStud.cgpa;
 
 		//insert student into BST
 		t1->insert(tempStud);
 		studCount++;
-		
 	}
 
-	cout << "\n\n<" << studCount << " student(s) was read and inserted into BST>";
+	cout << "\n<" << studCount << " student(s) was read and inserted into BST>";
 	readfile.close();
+	return true;
 }
 
 

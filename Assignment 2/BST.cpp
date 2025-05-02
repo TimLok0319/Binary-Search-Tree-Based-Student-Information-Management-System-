@@ -258,7 +258,6 @@ void BST::case3(BTNode *cur) {
 //Question (b)
 bool BST::deepestNode() {
 	BTNode* cur = nullptr ;
-	BTNode* tmp;
 	Queue q;
 	int level=0;
 	int treeHeight = findHeight(root);
@@ -280,19 +279,13 @@ bool BST::deepestNode() {
 		if (cur != NULL) {
 
 			if (cur->left != NULL)
-			{
 				q.enqueue(cur->left);
-			}
 
 			if (cur->right != NULL)
-			{
 				q.enqueue(cur->right);
-			}
 
 			if (level == treeHeight)
-			{
 				cout << cur->item.id << "\t";
-			}
 		}
 	}
 	return true;
@@ -307,39 +300,47 @@ void BST::descPrint(BTNode* cur) {
 	cur->item.print(cout);
 	descPrint(cur->left);
 }
-void BST::descFile(BTNode* cur, ofstream& outFile) {
+void BST::descFile(BTNode* cur, ofstream& outFile,int &curCount) {
+	//reverse in order traverse the tree and print it to the file (Data - Right - Left)
+	if (cur == NULL) return;
 	if (cur == NULL) return;
 
-	descFile(cur->right, outFile);
-	outFile << "\nName: " << cur->item.name;
-	outFile << "\nID: " << cur->item.id;
-	outFile << "\nAddress: " << cur->item.address;
-	outFile << "\nDate of Birth: " << cur->item.DOB;
-	outFile << "\nPhone No: " << cur->item.phone_no;
-	outFile << "\nCourse: " << cur->item.course;
-	outFile << "\nCGPA: " << cur->item.cgpa;
-	outFile << "\n";
-	descFile(cur->left, outFile);
+	descFile(cur->right, outFile, curCount);
+	outFile << "Name: " << cur->item.name << endl;
+	outFile << "ID: " << cur->item.id << endl;
+	outFile << "Address: " << cur->item.address << endl;
+	outFile << "Date of Birth: " << cur->item.DOB << endl;
+	outFile << "Phone No: " << cur->item.phone_no << endl;
+	outFile << "Course: " << cur->item.course << endl;
+	outFile << "CGPA: " << cur->item.cgpa << endl;
+	if(curCount != count-1) //check if it is the last student to avoid redundent line printing
+		outFile << "\n";
+	curCount++;
+
+	descFile(cur->left, outFile, curCount);
 }
-void BST::asceFile(BTNode* cur, ofstream& outFile) {
-
+void BST::asceFile(BTNode* cur, ofstream& outFile, int& curCount) {
+	//in order traverse the tree and print it to the file
 	if (cur == NULL) return;
 
-	asceFile(cur->left, outFile);
-	outFile << "\nName: " << cur->item.name;
-	outFile << "\nID: " << cur->item.id;
-	outFile << "\nAddress: " << cur->item.address;
-	outFile << "\nDate of Birth: " << cur->item.DOB;
-	outFile << "\nPhone No: " << cur->item.phone_no;
-	outFile << "\nCourse: " << cur->item.course;
-	outFile << "\nCGPA: " << cur->item.cgpa;
-	outFile << "\n";
-	asceFile(cur->right, outFile);
+	asceFile(cur->left, outFile,curCount);
+	outFile << "Name: " << cur->item.name << endl;
+	outFile << "ID: " << cur->item.id << endl;
+	outFile << "Address: " << cur->item.address << endl;
+	outFile << "Date of Birth: " << cur->item.DOB << endl;
+	outFile << "Phone No: " << cur->item.phone_no << endl;
+	outFile << "Course: " << cur->item.course << endl;
+	outFile << "CGPA: " << cur->item.cgpa << endl;
+	if (curCount != count - 1) //check if it is the last student to avoid redundent line printing
+		outFile << "\n";
+	curCount++;
+	asceFile(cur->right, outFile,curCount);
 }
 
 bool BST::display(int order, int source)
 {
 	ofstream outFile;
+	int curCount = 0;
 	outFile.open("student-info.txt");
 
 	if (count == 0)
@@ -355,12 +356,12 @@ bool BST::display(int order, int source)
 	{
 		if (order == 1)
 		{
-			asceFile(root, outFile);
+			asceFile(root, outFile, curCount);
 			cout << "\n<The BST is printed out to student-info.txt in ascending order>\n\n";
 		}
 		else if (order == 2)
 		{
-			descFile(root, outFile);
+			descFile(root, outFile,curCount);
 			cout << "\n<The BST is printed out to student-info.txt in ascending order>\n\n";
 		}
 	}
@@ -400,6 +401,7 @@ bool BST::CloneSubtree(BST t1, type item)
 
 	cout << "\n\n<Below are the student information in the new tree.>";
 	preOrderPrint();
+	cout << "\nTotal of " << count << " students exist(s) in new subtree";
 	return true;
 }
 
@@ -448,7 +450,6 @@ bool BST::searchItem(BTNode* cur, int id, type& result)
 bool BST::printLevelNodes()
 {
 	BTNode* cur = nullptr;
-	BTNode* tmp;
 	Queue q;
 	int level = 1;
 	int treeHeight = findHeight(root);
@@ -501,7 +502,7 @@ bool BST::printPath()
 	if (empty()) return false;
 
 	printPath2(root,path,pathLen);
-	
+	return true;
 }
 void BST::printPath2(BTNode* cur, int path[],int pathLen) {
 
@@ -522,8 +523,6 @@ void BST::printPath2(BTNode* cur, int path[],int pathLen) {
 		cout << endl;
 	}
 }
-
-
 
 
 

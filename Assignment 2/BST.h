@@ -51,8 +51,8 @@ struct BST {
 		
 		//Question (c)
 		void descPrint(BTNode* cur);
-		void descFile(BTNode* cur, ofstream&);
-		void asceFile(BTNode* cur, ofstream&);
+		void descFile(BTNode* cur, ofstream&, int&);
+		void asceFile(BTNode* cur, ofstream&, int&);
 		bool display(int , int );
 
 		//Question (d)
